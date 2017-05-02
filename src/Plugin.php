@@ -10,6 +10,7 @@ use Composer\Script\Event;
 use Composer\Installer\PackageEvents;
 use Composer\Installer\PackageEvent;
 use Composer\EventDispatcher\EventSubscriberInterface;
+use Composer\DependencyResolver\Operation\UpdateOperation;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
@@ -27,6 +28,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
+            ScriptEvents::POST_INSTALL_CMD => 'postUpdateScript',
             ScriptEvents::POST_UPDATE_CMD => 'postUpdateScript',
             PackageEvents::POST_PACKAGE_INSTALL => 'postUpdatePackage',
             PackageEvents::POST_PACKAGE_UPDATE => 'postUpdatePackage',
@@ -35,17 +37,15 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     
     public function postUpdateScript(Event $event)
     {
-        $event->getIO()->write('Update Script');
-        $this->io->write('Update Script 2');
+        $event->getIO()->write('Scripts has been Updated/Installed.');
     }
     
     public function postUpdatePackage(PackageEvent $event)
     {
-        $event->getIO()->write('Package Script');
-        $this->io->write('Package Script 2');
+        $event->getIO()->write('Package Event');
         $operation = $event->getOperation();
         if ($operation instanceof UpdateOperation) {
-            var_dump($operation->getInitialPackage());
+            $this->io->write($operation->getInitialPackage());
         }
     }
 }
