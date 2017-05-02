@@ -46,9 +46,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     
     public function postUpdateScript(Event $event)
     {
-        $event->getIO()->write('Scripts has been Updated/Installed.');
-        $event->getIO()->write(print_r($this->_packageUpdates, true));
-        $event->getIO()->write(print_r($this->_packageInstalls, true));
+        if (in_array('luyadev/luya-core', $this->_packageInstalls)) {
+            symlink('luya', '/vendor/bin/luya');   
+        }
     }
     
     public function postUpdatePackage(PackageEvent $event)
