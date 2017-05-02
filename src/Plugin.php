@@ -27,18 +27,21 @@ class Plugin implements PluginInterface
     {
         return [
             ScriptEvents::POST_UPDATE_CMD => 'postUpdateScript',
-            PackageEvents::POST_PACKAGE_INSTALL => 'postUpdatePackage'
+            PackageEvents::POST_PACKAGE_INSTALL => 'postUpdatePackage',
+            PackageEvents::POST_PACKAGE_UPDATE => 'postUpdatePackage',
         ];
     }
     
     public function postUpdateScript(Event $event)
     {
-        $this->io->write('Hello World');
-        var_dumP('postUpdateScript');
+        $event->getIO()->write('Update Script');
+        $this->io->write('Update Script 2');
     }
     
     public function postUpdatePackage(PackageEvent $event)
     {
+        $event->getIO()->write('Package Script');
+        $this->io->write('Package Script 2');
         $operation = $event->getOperation();
         if ($operation instanceof UpdateOperation) {
             var_dump($operation->getInitialPackage());
