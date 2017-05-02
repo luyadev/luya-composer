@@ -69,7 +69,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         }
         
         if ($operation instanceof InstallOperation) {
-            $this->_packageInstalls[] = $operation->getInitialPackage()->getName();
+            $this->_packageInstalls[] = $operation->getPackage()->getName();
         }
     }
 }
