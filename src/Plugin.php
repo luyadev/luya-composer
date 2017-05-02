@@ -10,15 +10,10 @@ use Composer\Script\Event;
 use Composer\Installer\PackageEvents;
 use Composer\Installer\PackageEvent;
 use Composer\EventDispatcher\EventSubscriberInterface;
-use Composer\DependencyResolver\Operation\UpdateOperation;
 use Composer\DependencyResolver\Operation\InstallOperation;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
-    /**
-     * @var array noted package updates.
-     */
-    private $_packageUpdates = [];
     
     private $_packageInstalls = [];
     
@@ -30,11 +25,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     
     public function activate(Composer $composer, IOInterface $io)
     {
-        $this->composer = $composer;
-        $this->io = $io;
-        $this->_vendorDir = rtrim($composer->getConfig()->get('vendor-dir'), '/');
-        
-        $io->write('LUYA Composer Plugin INIT: ' . $this->_vendorDir);
+        if ($composer->getConfig()) {
+            $this->_vendorDir = rtrim($composer->getConfig()->get('vendor-dir'), '/');
+        }
     }
 
     public static function getSubscribedEvents()
@@ -50,26 +43,18 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     public function postUpdateScript(Event $event)
     {
         if (in_array('luyadev/luya-core', $this->_packageInstalls)) {
-            symlink($this->_vendorDir . DIRECTORY_SEPARATOR . 'luyadev/luya-core/bin/luya', 'luya');   
+            if (!is_link('luya') && !is_file('luya')) {
+                symlink($this->_vendorDir . DIRECTORY_SEPARATOR . 'luyadev/luya-core/bin/luya', 'luya');   
+                $event->getIO()->write('Generated luya bin file.');
+            } else {
+                $event->getIO()->write('luya bin file already exists.');
+            }
         }
     }
     
     public function postUpdatePackage(PackageEvent $event)
     {
         $operation = $event->getOperation();
-        if ($operation instanceof UpdateOperation) {
-            $this->_packageUpdates[$operation->getInitialPackage()->getName()] = [
-                'from' => $operation->getInitialPackage()->getVersion(),
-                'fromPretty' => $operation->getInitialPackage()->getPrettyVersion(),
-                'to' => $operation->getTargetPackage()->getVersion(),
-                'toPretty' => $operation->getTargetPackage()->getPrettyVersion(),
-                'direction' => $event->getPolicy()->versionCompare(
-                    $operation->getInitialPackage(),
-                    $operation->getTargetPackage(),
-                    '<'
-                    ) ? 'up' : 'down',
-            ];
-        }
         
         if ($operation instanceof InstallOperation) {
             $this->_packageInstalls[] = $operation->getPackage()->getName();
