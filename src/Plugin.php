@@ -14,7 +14,6 @@ use Composer\DependencyResolver\Operation\InstallOperation;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
-    
     private $_packageInstalls = [];
     
     private $_vendorDir = null;
@@ -44,10 +43,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     {
         if (in_array('luyadev/luya-core', $this->_packageInstalls)) {
             if (!is_link('luya') && !is_file('luya')) {
-                symlink($this->_vendorDir . DIRECTORY_SEPARATOR . 'luyadev/luya-core/bin/luya', 'luya');   
-                $event->getIO()->write('Generated luya bin file.');
-            } else {
-                $event->getIO()->write('luya bin file already exists.');
+                symlink($this->_vendorDir . DIRECTORY_SEPARATOR . 'luyadev/luya-core/bin/luya', 'luya');
             }
         }
     }
