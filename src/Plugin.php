@@ -9,8 +9,9 @@ use Composer\Script\ScriptEvents;
 use Composer\Script\Event;
 use Composer\Installer\PackageEvents;
 use Composer\Installer\PackageEvent;
+use Composer\EventDispatcher\EventSubscriberInterface;
 
-class Plugin implements PluginInterface
+class Plugin implements PluginInterface, EventSubscriberInterface
 {
     protected $io;
     protected $composer;
