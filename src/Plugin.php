@@ -11,10 +11,19 @@ use Composer\Installer\PackageEvents;
 use Composer\Installer\PackageEvent;
 use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\DependencyResolver\Operation\UpdateOperation;
+use Composer\DependencyResolver\Operation\InstallOperation;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
+    /**
+     * @var array noted package updates.
+     */
+    private $_packageUpdates = [];
+    
+    private $_packageInstalls = [];
+    
     protected $io;
+    
     protected $composer;
     
     public function activate(Composer $composer, IOInterface $io)
@@ -38,14 +47,29 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     public function postUpdateScript(Event $event)
     {
         $event->getIO()->write('Scripts has been Updated/Installed.');
+        $event->getIO()->write(print_r($this->_packageUpdates, true));
+        $event->getIO()->write(print_r($this->_packageInstalls, true));
     }
     
     public function postUpdatePackage(PackageEvent $event)
     {
-        $event->getIO()->write('Package Event');
         $operation = $event->getOperation();
         if ($operation instanceof UpdateOperation) {
-            $this->io->write($operation->getInitialPackage());
+            $this->_packageUpdates[$operation->getInitialPackage()->getName()] = [
+                'from' => $operation->getInitialPackage()->getVersion(),
+                'fromPretty' => $operation->getInitialPackage()->getPrettyVersion(),
+                'to' => $operation->getTargetPackage()->getVersion(),
+                'toPretty' => $operation->getTargetPackage()->getPrettyVersion(),
+                'direction' => $event->getPolicy()->versionCompare(
+                    $operation->getInitialPackage(),
+                    $operation->getTargetPackage(),
+                    '<'
+                    ) ? 'up' : 'down',
+            ];
+        }
+        
+        if ($operation instanceof InstallOperation) {
+            $this->_packageInstalls[] = $operation->getInitialPackage()->getName();
         }
     }
 }
