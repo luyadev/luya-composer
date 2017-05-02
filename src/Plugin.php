@@ -22,6 +22,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     
     private $_packageInstalls = [];
     
+    private $_vendorDir = null;
+    
     protected $io;
     
     protected $composer;
@@ -30,8 +32,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     {
         $this->composer = $composer;
         $this->io = $io;
+        $this->_vendorDir = rtrim($composer->getConfig()->get('vendor-dir'), '/');
         
-        $io->write('LUYA Composer Plugin INIT');
+        $io->write('LUYA Composer Plugin INIT: ' . $this->_vendorDir);
     }
 
     public static function getSubscribedEvents()
@@ -47,7 +50,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     public function postUpdateScript(Event $event)
     {
         if (in_array('luyadev/luya-core', $this->_packageInstalls)) {
-            symlink('luya', '/vendor/bin/luya');   
+            symlink($this->_vendorDir . DIRECTORY_SEPARATOR . 'luyadev/luya-core/bin/luya', 'luya');   
         }
     }
     
