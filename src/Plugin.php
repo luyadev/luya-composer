@@ -20,7 +20,7 @@ class Plugin implements PluginInterface
         $this->composer = $composer;
         $this->io = $io;
         
-        $io->write('hi');
+        $io->write('LUYA Composer Plugin INIT');
     }
 
     public static function getSubscribedEvents()
