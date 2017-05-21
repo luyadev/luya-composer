@@ -45,11 +45,11 @@ class LuyaComposerPluginTest extends TestCase
     {
         $this->plugin->activate($this->composer, $this->io);
         
-        $this->assertCount(4, $this->plugin->getSubscribedEvents());
+        $this->assertCount(3, $this->plugin->getSubscribedEvents());
         
         $packageEvent = $this->getMockBuilder(PackageEvent::class)->disableOriginalConstructor()->getMock();
         
-        $this->plugin->postUpdatePackage($packageEvent);
+        $this->plugin->findCoreRepo($packageEvent);
         
         $scriptEvent = $this->getMockBuilder(Event::class)->disableOriginalConstructor()->getMock();
         

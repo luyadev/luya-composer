@@ -11,7 +11,15 @@ use Composer\Installer\PackageEvents;
 use Composer\Installer\PackageEvent;
 use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\DependencyResolver\Operation\InstallOperation;
+use Composer\Plugin\CommandEvent;
 
+/**
+ * LUYA Composer Plugin.
+ * 
+ * Events: https://getcomposer.org/doc/articles/scripts.md#event-names
+ * 
+ * @author Basil Suter <basil@nadar.io>
+ */
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
     private $_packageInstalls = [];
@@ -32,10 +40,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            ScriptEvents::POST_INSTALL_CMD => 'postUpdateScript',
+            ScriptEvents::POST_INSTALL_CMD => 'findCoreRepo',
             ScriptEvents::POST_UPDATE_CMD => 'postUpdateScript',
-            PackageEvents::POST_PACKAGE_INSTALL => 'postUpdatePackage',
-            PackageEvents::POST_PACKAGE_UPDATE => 'postUpdatePackage',
+        	ScriptEvents::POST_CREATE_PROJECT_CMD => 'postUpdatePackage',
         ];
     }
     
@@ -48,7 +55,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         }
     }
     
-    public function postUpdatePackage(PackageEvent $event)
+    public function findCoreRepo(PackageEvent $event)
     {
         $operation = $event->getOperation();
         
