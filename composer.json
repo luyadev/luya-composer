@@ -20,7 +20,7 @@
     "autoload": {
         "psr-4": {
             "luya\\composer\\": "src/"
-            }
+         }
     },
     "autoload-dev" : {
         "psr-4" : {

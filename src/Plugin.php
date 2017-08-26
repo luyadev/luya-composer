@@ -7,11 +7,10 @@ use Composer\IO\IOInterface;
 use Composer\Composer;
 use Composer\Script\ScriptEvents;
 use Composer\Script\Event;
-use Composer\Installer\PackageEvents;
 use Composer\Installer\PackageEvent;
 use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\DependencyResolver\Operation\InstallOperation;
-use Composer\Plugin\CommandEvent;
+use Composer\Installer\PackageEvents;
 
 /**
  * LUYA Composer Plugin.
@@ -32,6 +31,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     
     public function activate(Composer $composer, IOInterface $io)
     {
+    	// register the installer which extras luya specific config data from extras
+    	$installer = new Installer($io, $composer);
+    	$composer->getInstallationManager()->addInstaller($installer);
+    	
         if ($composer->getConfig()) {
             $this->_vendorDir = rtrim($composer->getConfig()->get('vendor-dir'), '/');
         }
@@ -40,9 +43,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            ScriptEvents::POST_INSTALL_CMD => 'findCoreRepo',
+            ScriptEvents::POST_INSTALL_CMD => 'postUpdateScript',
             ScriptEvents::POST_UPDATE_CMD => 'postUpdateScript',
-        	ScriptEvents::POST_CREATE_PROJECT_CMD => 'postUpdatePackage',
+        	ScriptEvents::POST_CREATE_PROJECT_CMD => 'postUpdateScript',
+        	PackageEvents::POST_PACKAGE_INSTALL => 'findCoreRepo',
         ];
     }
     
