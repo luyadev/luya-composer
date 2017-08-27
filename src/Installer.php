@@ -73,6 +73,7 @@ class Installer extends LibraryInstaller
 		$packageConfig = [
 			'package' => ['name' => $package->getName(), 'prettyName' => $package->getPrettyName(), 'version' => $package->getVersion()],
 			'blocks' => [],
+			'bootstrap' => (isset($config['bootstrap'])) ? $config['bootstrap'] : [],
 		];
 		
 		$blocks = (isset($config['blocks'])) ? $config['blocks'] : [];
