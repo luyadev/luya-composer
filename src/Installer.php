@@ -22,37 +22,45 @@ class Installer extends LibraryInstaller
 		// install the package the normal composer way
 		parent::install($repo, $package);
 		
-		$this->extractRepoConfig($package);
+		$this->addPackage($package);
 	}
 	
 	public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
 	{
 		parent::update($repo, $initial, $target);
 		
-		$this->extractRepoConfig($target);
+		$this->removePackage($initial);
+		$this->addPackage($target);
 	}
 	
 	public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
 	{
 		parent::uninstall($repo, $package);
 		
-		$this->extractRepoConfig($target, true);
+		$this->removePackage($package);
 	}
 	
-	protected function extractRepoConfig(PackageInterface $package, $remove = false)
+	protected function addPackage(PackageInterface $package)
 	{
-		$extra = $package->getExtra();
+		$isLuya = $this->isLuyaPackage($package);
 		
-		$config = isset($package->getExtra()[self::LUYA_EXTRA]);
-		
-		if ($config) {
-			if ($remove) {
-				$data = $this->removeConfig($package);
-			} else {
-				$data = $this->addConfig($package);
-			}
-			$this->writeInstaller($data);
+		if ($isLuya) {
+			$this->writeInstaller($this->addConfig($package));
 		}
+	}
+	
+	protected function removePackage(PackageInterface $package)
+	{
+		$isLuya = $this->isLuyaPackage($package);
+		
+		if ($isLuya) {
+			$this->writeInstaller($this->removeConfig($package));
+		}
+	}
+	
+	protected function isLuyaPackage(PackageInterface $package)
+	{
+		return isset($package->getExtra()[self::LUYA_EXTRA]) ? $package->getExtra()[self::LUYA_EXTRA] : false;
 	}
 	
 	protected function getInstallers()
