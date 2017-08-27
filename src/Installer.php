@@ -68,7 +68,7 @@ class Installer extends LibraryInstaller
 		$file = $this->vendorDir . DIRECTORY_SEPARATOR . self::LUYA_FILE;
 		
 		if (!file_exists($file)) {
-			return [];
+			return ['configs' => [], '__timestamp' => time()];
 		}
 		
 		if (function_exists('opcache_invalidate')) {
@@ -77,6 +77,7 @@ class Installer extends LibraryInstaller
 		
 		$data = require($file);
 
+		$data['__timestamp'] = time();
 		return $data;
 	}
 	
@@ -100,8 +101,7 @@ class Installer extends LibraryInstaller
 	protected function removeConfig(PackageInterface $package)
 	{
 		$data = $this->getInstallers();
-		unset($data[$package->getName()]);
-		$data['__timestamp'] = time();
+		unset($data['configs'][$package->getName()]);
 		
 		return $data;
 	}
@@ -109,8 +109,7 @@ class Installer extends LibraryInstaller
 	protected function addConfig(PackageInterface $package)
 	{
 		$data = $this->getInstallers();
-		$data[$package->getName()] = $this->ensureConfig($package, $package->getExtra()[self::LUYA_EXTRA]);
-		$data['__timestamp'] = time();
+		$data['configs'][$package->getName()] = $this->ensureConfig($package, $package->getExtra()[self::LUYA_EXTRA]);
 		
 		return $data;
 	}
