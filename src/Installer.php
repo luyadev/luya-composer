@@ -90,6 +90,8 @@ class Installer extends LibraryInstaller
 		$data = $this->getInstallers();
 		unset($data[$package->getName()]);
 		$data['__timestamp'] = time();
+		
+		return $data;
 	}
 	
 	protected function addConfig(PackageInterface $package)
