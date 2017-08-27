@@ -8,7 +8,8 @@
 Following Tasks are done by the luya composer task:
 
 + Provides the symlink to the bin file inside the root directory of the application.
-+ Enable bootsrapping of custom files like blocks.
++ Bind blocks into the system without a module
++ Add files to the LUYA Bootstrapping process.
 
 An example of define a blocks folder inside your composer json file.
 
@@ -17,6 +18,9 @@ An example of define a blocks folder inside your composer json file.
         "luya" : {
             "blocks": [
                 "path/to/blocks/*"
+            ],
+            "bootstrap": [
+            	"src/frontend/MyBootstrapClass.php"
             ]
         }
     }
