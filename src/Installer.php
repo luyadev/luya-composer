@@ -68,7 +68,7 @@ class Installer extends LibraryInstaller
 		$file = $this->vendorDir . DIRECTORY_SEPARATOR . self::LUYA_FILE;
 		
 		if (!file_exists($file)) {
-			return ['configs' => [], '__timestamp' => time()];
+			return ['configs' => [], 'timestamp' => time()];
 		}
 		
 		if (function_exists('opcache_invalidate')) {
@@ -77,7 +77,7 @@ class Installer extends LibraryInstaller
 		
 		$data = require($file);
 
-		$data['__timestamp'] = time();
+		$data['timestamp'] = time();
 		return $data;
 	}
 	
