@@ -46,7 +46,11 @@ class Installer extends LibraryInstaller
 		$config = isset($package->getExtra()[self::LUYA_EXTRA]);
 		
 		if ($config) {
-			$data = $this->removeConfig($package);
+			if ($remove) {
+				$data = $this->removeConfig($package);
+			} else {
+				$data = $this->addConfig($package);
+			}
 			$this->writeInstaller($data);
 		}
 	}
