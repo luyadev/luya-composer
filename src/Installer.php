@@ -60,6 +60,10 @@ class Installer extends LibraryInstaller
 	
 	protected function isLuyaPackage(PackageInterface $package)
 	{
+		if (empty($package->getExtra())) {
+			return false;
+		}
+		
 		return isset($package->getExtra()[self::LUYA_EXTRA]) ? $package->getExtra()[self::LUYA_EXTRA] : false;
 	}
 	
