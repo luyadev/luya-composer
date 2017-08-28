@@ -14,7 +14,7 @@ class Installer extends LibraryInstaller
 	
 	public function supports($packageType)
 	{
-		return true;
+		return $packageType == 'luya-core' || $packageType == 'luya-plugin' || $packageType == 'luya-module';
 	}
 	
 	public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
@@ -22,7 +22,7 @@ class Installer extends LibraryInstaller
 		// install the package the normal composer way
 		parent::install($repo, $package);
 		
-		$this->io->write('<- LUYA install' . $package->getName());
+		$this->io->write('<- LUYA install: ' . $package->getName());
 		
 		$this->addPackage($package);
 	}
