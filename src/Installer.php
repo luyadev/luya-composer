@@ -22,12 +22,16 @@ class Installer extends LibraryInstaller
 		// install the package the normal composer way
 		parent::install($repo, $package);
 		
+		$this->io->write('<- LUYA install' . $package->getName());
+		
 		$this->addPackage($package);
 	}
 	
 	public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
 	{
 		parent::update($repo, $initial, $target);
+		
+		$this->io->write('<- LUYA update' .$target->getName() . ' - initial: ' . $initial->getName());
 		
 		$this->removePackage($initial);
 		$this->addPackage($target);
@@ -36,6 +40,8 @@ class Installer extends LibraryInstaller
 	public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
 	{
 		parent::uninstall($repo, $package);
+		
+		$this->io->write('<- LUYA remove' . $package->getName());
 		
 		$this->removePackage($package);
 	}
@@ -80,7 +86,6 @@ class Installer extends LibraryInstaller
 		}
 		
 		$data = require($file);
-
 		$data['timestamp'] = time();
 		return $data;
 	}
@@ -105,7 +110,10 @@ class Installer extends LibraryInstaller
 	protected function removeConfig(PackageInterface $package)
 	{
 		$data = $this->getInstallers();
-		unset($data['configs'][$package->getName()]);
+		
+		if (isset($data['configs'][$package->getName()])) {
+			unset($data['configs'][$package->getName()]);
+		}
 		
 		return $data;
 	}
