@@ -14,7 +14,7 @@ class Installer extends LibraryInstaller
 	
 	public function supports($packageType)
 	{
-		return $packageType == 'luya-core' || $packageType == 'luya-plugin' || $packageType == 'luya-module';
+		return $packageType == 'luya-core' || $packageType == 'luya-extension' || $packageType == 'luya-module';
 	}
 	
 	public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
