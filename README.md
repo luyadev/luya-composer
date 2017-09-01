@@ -15,15 +15,16 @@ An example of define a blocks folder inside your composer json file.
 
 ```json
  "extra" : {
-        "luya" : {
-            "blocks": [
-                "path/to/blocks/*"
-            ],
-            "bootstrap": [
-            	"src/frontend/MyBootstrapClass.php"
-            ]
-        }
+    "luya" : {
+        "blocks": [
+            "path/to/blocks",
+            "path/to/one/Block.php"
+        ],
+        "bootstrap": [
+         "src/frontend/MyBootstrapClass.php"
+        ]
     }
+}
 ```
 
 LUYA will now import those blocks when running the `import` command.
