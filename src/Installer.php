@@ -28,16 +28,12 @@ class Installer extends LibraryInstaller
         // install the package the normal composer way
         parent::install($repo, $package);
         
-        $this->io->write('<- LUYA install: ' . $package->getName());
-        
         $this->addPackage($package);
     }
     
     public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
     {
         parent::update($repo, $initial, $target);
-        
-        $this->io->write('<- LUYA update' .$target->getName() . ' - initial: ' . $initial->getName());
         
         $this->removePackage($initial);
         $this->addPackage($target);
@@ -46,8 +42,6 @@ class Installer extends LibraryInstaller
     public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
         parent::uninstall($repo, $package);
-        
-        $this->io->write('<- LUYA remove' . $package->getName());
         
         $this->removePackage($package);
     }
