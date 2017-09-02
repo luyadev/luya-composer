@@ -14,10 +14,11 @@ use Composer\Installer\PackageEvents;
 
 /**
  * LUYA Composer Plugin.
- * 
+ *
  * Events: https://getcomposer.org/doc/articles/scripts.md#event-names
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
@@ -31,10 +32,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     
     public function activate(Composer $composer, IOInterface $io)
     {
-    	// register the installer which extras luya specific config data from extras
-    	$installer = new Installer($io, $composer);
-    	$composer->getInstallationManager()->addInstaller($installer);
-    	
+        // register the installer which extras luya specific config data from extras
+        $installer = new Installer($io, $composer);
+        $composer->getInstallationManager()->addInstaller($installer);
+        
         if ($composer->getConfig()) {
             $this->_vendorDir = rtrim($composer->getConfig()->get('vendor-dir'), '/');
         }
@@ -45,8 +46,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         return [
             ScriptEvents::POST_INSTALL_CMD => 'postUpdateScript',
             ScriptEvents::POST_UPDATE_CMD => 'postUpdateScript',
-        	ScriptEvents::POST_CREATE_PROJECT_CMD => 'postUpdateScript',
-        	PackageEvents::POST_PACKAGE_INSTALL => 'findCoreRepo',
+            ScriptEvents::POST_CREATE_PROJECT_CMD => 'postUpdateScript',
+            PackageEvents::POST_PACKAGE_INSTALL => 'findCoreRepo',
         ];
     }
     

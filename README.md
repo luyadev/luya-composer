@@ -11,17 +11,19 @@ Following Tasks are done by the luya composer task:
 + Bind blocks into the system without a module
 + Add files to the LUYA Bootstrapping process.
 
+> In order to enable luya extra section in your package, the package type must be either `luya-extension` or `luya-module`.
+
 An example of define a blocks folder inside your composer json file.
 
 ```json
- "extra" : {
+"extra" : {
     "luya" : {
         "blocks": [
             "path/to/blocks",
             "path/to/one/Block.php"
         ],
         "bootstrap": [
-         "src/frontend/MyBootstrapClass.php"
+            "src/frontend/MyBootstrapClass.php"
         ]
     }
 }
@@ -29,7 +31,7 @@ An example of define a blocks folder inside your composer json file.
 
 LUYA will now import those blocks when running the `import` command.
 
-## Testing Local
+## Local Testing for Composer Plugin Development
 
 In order to test the luya composer plugins you have to create a new folder **outside of the current luya-composer folder** and include the the composer package with a composer.json as following:
 
