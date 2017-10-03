@@ -16,6 +16,7 @@ Following Tasks are done by the luya composer task:
 An example of define a blocks folder inside your composer json file.
 
 ```json
+"type" : "luya-extension",
 "extra" : {
     "luya" : {
         "blocks": [
@@ -23,7 +24,7 @@ An example of define a blocks folder inside your composer json file.
             "path/to/one/Block.php"
         ],
         "bootstrap": [
-            "src/frontend/MyBootstrapClass.php"
+            "namespace\\to\\my\\BootstrapFile"
         ]
     }
 }
