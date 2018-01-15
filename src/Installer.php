@@ -48,29 +48,12 @@ class Installer extends LibraryInstaller
     
     protected function addPackage(PackageInterface $package)
     {
-        $isLuya = $this->isLuyaPackage($package);
-        
-        if ($isLuya) {
-            $this->writeInstaller($this->addConfig($package));
-        }
+        $this->writeInstaller($this->addConfig($package));
     }
     
     protected function removePackage(PackageInterface $package)
     {
-        $isLuya = $this->isLuyaPackage($package);
-        
-        if ($isLuya) {
-            $this->writeInstaller($this->removeConfig($package));
-        }
-    }
-    
-    protected function isLuyaPackage(PackageInterface $package)
-    {
-        if (empty($package->getExtra())) {
-            return false;
-        }
-        
-        return isset($package->getExtra()[self::LUYA_EXTRA]) ? $package->getExtra()[self::LUYA_EXTRA] : false;
+        $this->writeInstaller($this->removeConfig($package));
     }
     
     protected function getInstallers()
@@ -118,10 +101,19 @@ class Installer extends LibraryInstaller
         return $data;
     }
     
+    protected function getPackageExtraData(PackageInterface $package)
+    {
+        if (empty($package->getExtra())) {
+            return [];
+        }
+        
+        return isset($package->getExtra()[self::LUYA_EXTRA]) ? $package->getExtra()[self::LUYA_EXTRA] : [];
+    }
+    
     protected function addConfig(PackageInterface $package)
     {
         $data = $this->getInstallers();
-        $data['configs'][$package->getName()] = $this->ensureConfig($package, $package->getExtra()[self::LUYA_EXTRA]);
+        $data['configs'][$package->getName()] = $this->ensureConfig($package, $this->getPackageExtraData($package));
         
         return $data;
     }
