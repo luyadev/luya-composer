@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
 
-## 1.0.3 (in progress)
+## 1.0.3 (16. January 2018)
 
 + [#4](https://github.com/luyadev/luya-composer/issues/4) Save all LUYA packages in installer.php whether they have extra data or not.
 
