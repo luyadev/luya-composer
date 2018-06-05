@@ -37,7 +37,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $composer->getInstallationManager()->addInstaller($installer);
         
         if ($composer->getConfig()) {
-            $this->_vendorDir = rtrim($composer->getConfig()->get('vendor-dir'), '/');
+            $this->_vendorDir = rtrim($composer->getConfig()->get('vendor-dir', \Composer\Config::RELATIVE_PATHS), '/');
         }
     }
 

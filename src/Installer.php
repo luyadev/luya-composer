@@ -84,7 +84,7 @@ class Installer extends LibraryInstaller
         $blocks = (isset($config['blocks'])) ? $config['blocks'] : [];
     
         foreach ($blocks as $blockFolder) {
-            $packageConfig['blocks'][] = $this->vendorDir . DIRECTORY_SEPARATOR . $package->getPrettyName() . DIRECTORY_SEPARATOR . ltrim($blockFolder, '/');
+            $packageConfig['blocks'][] = '@vendor' . DIRECTORY_SEPARATOR . $package->getPrettyName() . DIRECTORY_SEPARATOR . ltrim($blockFolder, '/');
         }
         
         return $packageConfig;
