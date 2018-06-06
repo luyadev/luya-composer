@@ -24,7 +24,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 {
     private $_packageInstalls = [];
     
-    private $_vendorDir = null;
+    private $relativeVendorDir = null;
     
     protected $io;
     
@@ -37,7 +37,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $composer->getInstallationManager()->addInstaller($installer);
         
         if ($composer->getConfig()) {
-            $this->_vendorDir = rtrim($composer->getConfig()->get('vendor-dir', \Composer\Config::RELATIVE_PATHS), '/');
+            $this->relativeVendorDir = rtrim($this->composer->getConfig()->get('vendor-dir', \Composer\Config::RELATIVE_PATHS), '/');
         }
     }
 
@@ -56,7 +56,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         if (in_array('luyadev/luya-core', $this->_packageInstalls)) {
             if (!is_link('luya') && !is_file('luya')) {
                 // oppress exception for windows system (https://github.com/luyadev/luya/issues/1694) 
-                @symlink($this->_vendorDir . DIRECTORY_SEPARATOR . 'luyadev/luya-core/bin/luya', 'luya');
+                @symlink($this->relativeVendorDir . DIRECTORY_SEPARATOR . 'luyadev/luya-core/bin/luya', 'luya');
             }
         }
     }
