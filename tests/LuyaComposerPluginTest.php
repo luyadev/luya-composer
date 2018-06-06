@@ -15,17 +15,16 @@ class LuyaComposerPluginTest extends TestCase
     
     protected function setUp()
     {
+        parent::setUp();
+        
         $this->plugin = new Plugin();
         $this->plugin->linkPath = __DIR__ . '/data/luya';
-    
-        return parent::setUp();
     }
     
     protected function tearDown()
     {
         $this->plugin = null;
-        $this->composer = null;
-        $this->io = null;
+        parent::tearDown();
     }
     
     public function testSubscribeEvents()

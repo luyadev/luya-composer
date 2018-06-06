@@ -7,9 +7,12 @@ use Composer\Composer;
 use Composer\Config;
 use Composer\Package\CompletePackage;
 use Composer\Plugin\PluginManager;
+use Composer\Util\Filesystem;
 
 class TestCase extends \Composer\TestCase
 {
+    public $directory = 'data/tmp';
+    
     /**
      * @var Composer
      */
@@ -47,7 +50,7 @@ class TestCase extends \Composer\TestCase
     
     protected function setUp()
     {
-        $this->packages = array();
+        $this->packages = [];
         
         $dm = $this->getMockBuilder('Composer\Downloader\DownloadManager')
             ->disableOriginalConstructor()
@@ -87,11 +90,26 @@ class TestCase extends \Composer\TestCase
         
         $config->merge(array(
             'config' => array(
-                'vendor-dir' => 'data/vendor',
-                'home' => 'data',
-                'bin-dir' => 'data/bin',
+                'vendor-dir' => $this->directory . '/vendor',
+                'home' => $this->directory,
+                'bin-dir' => $this->directory . '/bin',
             ),
         ));
+    }
+    
+    protected function tearDown()
+    {
+        $filesystem = new Filesystem();
+        $filesystem->removeDirectory($this->directory);
+        
+        $this->composer = null;
+        $this->io = null;
+        $this->pm = null;
+        $this->autoloadGenerator = null;
+        $this->repository = null;
+        $this->packages = null;
+        
+        parent::tearDown();
     }
     
     /**
