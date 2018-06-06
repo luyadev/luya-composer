@@ -2,7 +2,6 @@
 
 namespace luya\composer\tests;
 
-use Composer\TestCase;
 use luya\composer\Plugin;
 use Composer\Installer\PackageEvent;
 use Composer\Script\Event;
@@ -13,25 +12,13 @@ class LuyaComposerPluginTest extends TestCase
      * @var Plugin
      */
     protected $plugin;
-    /**
-     * @var Composer
-     */
-    protected $composer;
-    /**
-     * @var IOInterface
-     */
-    protected $io;
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $package;
     
     protected function setUp()
     {
         $this->plugin = new Plugin();
-        $this->composer = $this->getMockBuilder('Composer\Composer')->getMock();
-        $this->io = $this->getMockBuilder('Composer\IO\IOInterface')->getMock();
-        $this->package = $this->getMockBuilder('Composer\Package\RootPackageInterface')->getMock();
+        $this->plugin->linkPath = __DIR__ . '/data/luya';
+    
+        return parent::setUp();
     }
     
     protected function tearDown()
@@ -45,14 +32,29 @@ class LuyaComposerPluginTest extends TestCase
     {
         $this->plugin->activate($this->composer, $this->io);
         
-        $this->assertCount(3, $this->plugin->getSubscribedEvents());
+        $this->assertCount(4, $this->plugin->getSubscribedEvents());
         
         $packageEvent = $this->getMockBuilder(PackageEvent::class)->disableOriginalConstructor()->getMock();
-        
+    
+        // @todo: own test
         $this->plugin->findCoreRepo($packageEvent);
-        
-        $scriptEvent = $this->getMockBuilder(Event::class)->disableOriginalConstructor()->getMock();
-        
-        $this->plugin->postUpdateScript($scriptEvent);
     }
+    
+    public function testPostUpdateScript()
+    {
+        $this->invokeSetProperty($this->plugin, '_packageInstalls', [
+            'luyadev/luya-module-admin',
+            'luyadev/luya-core',
+            'luyadev/luya-foo',
+        ]);
+    
+        $scriptEvent = new Event('post-update', $this->composer, $this->io);
+    
+        $this->plugin->postUpdateScript($scriptEvent);
+    
+        $luyaLinkTarget = @readlink(__DIR__ . '/data/luya');
+        $this->assertNotFalse($luyaLinkTarget, 'Luya file link missing.');
+        $this->assertStringStartsNotWith('/', $luyaLinkTarget, 'Link target should not be a absolute path.');
+    }
+    
 }
