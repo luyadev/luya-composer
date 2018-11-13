@@ -30,8 +30,19 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     
     protected $composer;
     
+    /**
+     * Filename of the symlink with target to the `vendor/bin/luya`.
+     *
+     * @since 1.0.4
+     */
     public $linkPath = 'luya';
     
+    /**
+     * Read the relative vendor-dir from composer config.
+     *
+     * @return string
+     * @since 1.0.4
+     */
     public function getRelativeVendorDir(Composer $composer)
     {
         if ($this->_relativeVendorDir === null) {

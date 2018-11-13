@@ -139,6 +139,12 @@ class Installer extends LibraryInstaller
         }
     }
     
+    /**
+     * Read the relative vendor-dir from composer config.
+     *
+     * @return string
+     * @since 1.0.4
+     */
     public function getRelativeVendorDir()
     {
         if ($this->_relativeVendorDir === null) {
