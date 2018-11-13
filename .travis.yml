@@ -3,6 +3,7 @@ env:
     - CC_TEST_REPORTER_ID=1e5367b9385063beaf0d6552bc0ac369e92d84bf53c6b03b8a23ef50e2bff1ed
 language: php
 php:
+  - 7.0
   - 7.1
   - 7.2
   - nightly
