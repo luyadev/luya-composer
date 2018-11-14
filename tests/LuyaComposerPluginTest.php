@@ -48,6 +48,8 @@ class LuyaComposerPluginTest extends TestCase
     
         $this->plugin->postUpdateScript($scriptEvent);
     
+        $this->assertNotFalse(is_link(__DIR__ . '/data/luya'), 'Luya file should be a link.');
+        
         $luyaLinkTarget = @readlink(__DIR__ . '/data/luya');
         $this->assertNotFalse($luyaLinkTarget, 'Luya file link missing.');
         $this->assertStringStartsNotWith('/', $luyaLinkTarget, 'Link target should not be a absolute path.');
