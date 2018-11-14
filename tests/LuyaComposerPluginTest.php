@@ -23,6 +23,7 @@ class LuyaComposerPluginTest extends TestCase
     
     protected function tearDown()
     {
+        unlink($this->plugin->linkPath);
         $this->plugin = null;
         parent::tearDown();
     }
