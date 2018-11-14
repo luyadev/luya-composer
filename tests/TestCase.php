@@ -8,8 +8,9 @@ use Composer\Config;
 use Composer\Package\CompletePackage;
 use Composer\Plugin\PluginManager;
 use Composer\Util\Filesystem;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 
-class TestCase extends \Composer\TestCase
+class TestCase extends BaseTestCase
 {
     public $directory = 'data/tmp';
     
