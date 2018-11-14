@@ -74,7 +74,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         if (in_array('luyadev/luya-core', $this->_packageInstalls)) {
             if (!is_link($this->linkPath) && !is_file($this->linkPath)) {
                 // oppress exception for windows system (https://github.com/luyadev/luya/issues/1694)
-                symlink($this->getRelativeVendorDir($event->getComposer()) . DIRECTORY_SEPARATOR . 'luyadev/luya-core/bin/luya', $this->linkPath);
+                @symlink($this->getRelativeVendorDir($event->getComposer()) . DIRECTORY_SEPARATOR . 'luyadev/luya-core/bin/luya', $this->linkPath);
             }
         }
     }
