@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. This projec
 
 ## 1.0.4 (in progress)
 
++ [#2](https://github.com/luyadev/luya-composer/issues/2) Relative vendor directory and alias for block paths.
+
 ## 1.0.3 (16. January 2018)
 
 + [#4](https://github.com/luyadev/luya-composer/issues/4) Save all LUYA packages in installer.php whether they have extra data or not.

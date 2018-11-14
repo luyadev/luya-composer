@@ -24,21 +24,39 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 {
     private $_packageInstalls = [];
     
-    private $_vendorDir = null;
+    private $_relativeVendorDir = null;
     
     protected $io;
     
     protected $composer;
+    
+    /**
+     * Filename of the symlink with target to the `vendor/bin/luya`.
+     *
+     * @since 1.0.4
+     */
+    public $linkPath = 'luya';
+    
+    /**
+     * Read the relative vendor-dir from composer config.
+     *
+     * @return string
+     * @since 1.0.4
+     */
+    public function getRelativeVendorDir(Composer $composer)
+    {
+        if ($this->_relativeVendorDir === null) {
+            $this->_relativeVendorDir = rtrim($composer->getConfig()->get('vendor-dir', \Composer\Config::RELATIVE_PATHS), '/');
+        }
+    
+        return $this->_relativeVendorDir;
+    }
     
     public function activate(Composer $composer, IOInterface $io)
     {
         // register the installer which extras luya specific config data from extras
         $installer = new Installer($io, $composer);
         $composer->getInstallationManager()->addInstaller($installer);
-        
-        if ($composer->getConfig()) {
-            $this->_vendorDir = rtrim($composer->getConfig()->get('vendor-dir'), '/');
-        }
     }
 
     public static function getSubscribedEvents()
@@ -54,9 +72,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     public function postUpdateScript(Event $event)
     {
         if (in_array('luyadev/luya-core', $this->_packageInstalls)) {
-            if (!is_link('luya') && !is_file('luya')) {
-                // oppress exception for windows system (https://github.com/luyadev/luya/issues/1694) 
-                @symlink($this->_vendorDir . DIRECTORY_SEPARATOR . 'luyadev/luya-core/bin/luya', 'luya');
+            if (!is_link($this->linkPath) && !is_file($this->linkPath)) {
+                // oppress exception for windows system (https://github.com/luyadev/luya/issues/1694)
+                @symlink($this->getRelativeVendorDir($event->getComposer()) . DIRECTORY_SEPARATOR . 'luyadev/luya-core/bin/luya', $this->linkPath);
             }
         }
     }

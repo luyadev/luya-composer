@@ -18,6 +18,8 @@ class Installer extends LibraryInstaller
     
     const LUYA_FILE = 'luyadev/installer.php';
     
+    private $_relativeVendorDir;
+    
     public function supports($packageType)
     {
         return $packageType == 'luya-core' || $packageType == 'luya-extension' || $packageType == 'luya-module';
@@ -84,7 +86,7 @@ class Installer extends LibraryInstaller
         $blocks = (isset($config['blocks'])) ? $config['blocks'] : [];
     
         foreach ($blocks as $blockFolder) {
-            $packageConfig['blocks'][] = $this->vendorDir . DIRECTORY_SEPARATOR . $package->getPrettyName() . DIRECTORY_SEPARATOR . ltrim($blockFolder, '/');
+            $packageConfig['blocks'][] = $this->getRelativeVendorDir() . DIRECTORY_SEPARATOR . $package->getPrettyName() . DIRECTORY_SEPARATOR . ltrim($blockFolder, '/');
         }
         
         return $packageConfig;
@@ -118,7 +120,6 @@ class Installer extends LibraryInstaller
         return $data;
     }
     
-    
     protected function writeInstaller(array $data)
     {
         $file = $this->vendorDir . DIRECTORY_SEPARATOR . self::LUYA_FILE;
@@ -137,4 +138,21 @@ class Installer extends LibraryInstaller
             @opcache_invalidate($file, true);
         }
     }
+    
+    /**
+     * Read the relative vendor-dir from composer config.
+     *
+     * @return string
+     * @since 1.0.4
+     */
+    public function getRelativeVendorDir()
+    {
+        if ($this->_relativeVendorDir === null) {
+            $this->_relativeVendorDir = rtrim($this->composer->getConfig()->get('vendor-dir', \Composer\Config::RELATIVE_PATHS), '/');
+        }
+        
+        return $this->_relativeVendorDir;
+    }
+    
+    
 }
