@@ -19,12 +19,15 @@ class LuyaComposerPluginTest extends TestCase
         
         $this->plugin = new Plugin();
         $this->plugin->linkPath = __DIR__ . '/data/luya';
+    
         @unlink($this->plugin->linkPath);
+        touch('tmp/vendor/luyadev/luya-core/bin/luya');
     }
     
     protected function tearDown()
     {
         @unlink($this->plugin->linkPath);
+        @unlink('tmp/vendor/luyadev/luya-core/bin/luya');
         $this->plugin = null;
         parent::tearDown();
     }
