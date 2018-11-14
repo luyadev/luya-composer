@@ -21,13 +21,15 @@ class LuyaComposerPluginTest extends TestCase
         $this->plugin->linkPath = __DIR__ . '/data/luya';
     
         @unlink($this->plugin->linkPath);
+        @mkdir(__DIR__ . '/data/tmp/vendor/luyadev/luya-core/bin', 0755, true);
         touch(__DIR__ . '/data/tmp/vendor/luyadev/luya-core/bin/luya');
     }
     
     protected function tearDown()
     {
         @unlink($this->plugin->linkPath);
-        @unlink(__DIR__ . '/datatmp/vendor/luyadev/luya-core/bin/luya');
+        @unlink(__DIR__ . '/data/tmp/vendor/luyadev/luya-core/bin/luya');
+    
         $this->plugin = null;
         parent::tearDown();
     }
