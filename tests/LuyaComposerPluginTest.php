@@ -19,10 +19,17 @@ class LuyaComposerPluginTest extends TestCase
         
         $this->plugin = new Plugin();
         $this->plugin->linkPath = __DIR__ . '/data/luya';
+    
+        @unlink($this->plugin->linkPath);
+        @mkdir(__DIR__ . '/data/tmp/vendor/luyadev/luya-core/bin', 0755, true);
+        touch(__DIR__ . '/data/tmp/vendor/luyadev/luya-core/bin/luya');
     }
     
     protected function tearDown()
     {
+        @unlink($this->plugin->linkPath);
+        @unlink(__DIR__ . '/data/tmp/vendor/luyadev/luya-core/bin/luya');
+    
         $this->plugin = null;
         parent::tearDown();
     }
@@ -46,6 +53,8 @@ class LuyaComposerPluginTest extends TestCase
     
         $this->plugin->postUpdateScript($scriptEvent);
     
+        $this->assertNotFalse(is_link(__DIR__ . '/data/luya'), 'Luya file should be a link.');
+        
         $luyaLinkTarget = @readlink(__DIR__ . '/data/luya');
         $this->assertNotFalse($luyaLinkTarget, 'Luya file link missing.');
         $this->assertStringStartsNotWith('/', $luyaLinkTarget, 'Link target should not be a absolute path.');
