@@ -33,6 +33,8 @@ An example of define a blocks folder inside your composer json file.
 
 LUYA will now import those blocks when running the `import` command.
 
+> For root packages there is a `symlink` property available inside luya section of extra in order to disable the symlink of luya binary into application folder.
+
 ## Local Testing for Composer Plugin Development
 
 In order to test the luya composer plugins you have to create a new folder **outside of the current luya-composer folder** and include the the composer package with a composer.json as following:

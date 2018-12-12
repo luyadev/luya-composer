@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ## 1.0.4 (in progress)
 
++ [#7](https://github.com/luyadev/luya-composer/issues/7) Add option `symlink` in luya extra section to disable the symlinking of the luya binary into the application folder.
 + [#2](https://github.com/luyadev/luya-composer/issues/2) Relative vendor directory and alias for block paths.
 
 ## 1.0.3 (16. January 2018)

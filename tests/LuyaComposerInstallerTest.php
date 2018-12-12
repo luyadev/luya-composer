@@ -65,5 +65,4 @@ class LuyaComposerInstallerTest extends TestCase
         $this->assertSame($expectedConfig['blocks'], $packageConfig['blocks'], 'Invalid block configuration.');
         $this->assertSame($expectedConfig['bootstrap'], $packageConfig['bootstrap'], 'Invalid bootstrap configuration.');
     }
-    
 }
