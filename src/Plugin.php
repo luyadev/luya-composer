@@ -12,6 +12,7 @@ use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\DependencyResolver\Operation\InstallOperation;
 use Composer\Installer\PackageEvents;
 use Composer\Package\RootPackage;
+use Composer\Package\Package;
 
 /**
  * LUYA Composer Plugin.
@@ -34,6 +35,13 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      * @since 1.0.4
      */
     public $linkPath = 'luya';
+
+    /**
+     * This property can be turned trued by any package in order to do stop creating luya binary.
+     *
+     * @var boolean
+     */
+    public $packageHasDisabledSymlink = false;
     
     /**
      * {@inheritDoc}
@@ -70,6 +78,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $operation = $event->getOperation();
         
         if ($operation instanceof InstallOperation) {
+            // any package with symlink option disable can prevent the symlink creating.
+            if (!$this->packageHasDisabledSymlink) {
+                $this->packageHasDisabledSymlink = $this->ensureLuyaExtraSectionSymlinkIsDisabled($operation->getPackage());
+            }
+
             $this->_packageInstalls[] = $operation->getPackage()->getName();
         }
     }
@@ -82,6 +95,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     public function postUpdateScript(Event $event)
     {
+        // any package which has been installed disabled the symlink command, therefore skip this step.
+        if ($this->packageHasDisabledSymlink) {
+            return;
+        }
+
         if ($event->getComposer()->getPackage()) {
             if ($this->ensureLuyaExtraSectionSymlinkIsDisabled($event->getComposer()->getPackage())) {
                 // disable continue due to symlink disable option
@@ -103,11 +121,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      *
      * This means the symlinking for luya binary is diabled for postUpdateScript() event.
      *
-     * @param RootPackage $package
+     * @param Package $package
      * @return boolean
      * @since 1.0.4
      */
-    public function ensureLuyaExtraSectionSymlinkIsDisabled(RootPackage $package)
+    public function ensureLuyaExtraSectionSymlinkIsDisabled(Package $package)
     {
         $extra = $package->getExtra();
 

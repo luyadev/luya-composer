@@ -95,4 +95,13 @@ class LuyaComposerPluginTest extends TestCase
         ]]);
         $this->assertFalse($plugin->ensureLuyaExtraSectionSymlinkIsDisabled($luyaTrue));
     }
+
+    public function testPackageHasDisabledSymlink()
+    {
+        $scriptEvent = new Event('post-update', $this->composer, $this->io);
+       
+        $plugin = new Plugin();
+        $plugin->packageHasDisabledSymlink = true;
+        $this->assertNull($plugin->postUpdateScript($scriptEvent)); // well... yes
+    }
 }
