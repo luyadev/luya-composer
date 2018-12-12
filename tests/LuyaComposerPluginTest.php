@@ -8,6 +8,7 @@ use Composer\Script\Event;
 use Composer\Package\Package;
 use Composer\Package\RootPackage;
 use luya\composer\Installer;
+use Composer\DependencyResolver\DefaultPolicy;
 
 class LuyaComposerPluginTest extends TestCase
 {
@@ -86,5 +87,12 @@ class LuyaComposerPluginTest extends TestCase
             Plugin::LUYA_SYMLINK => false,
         ]]);
         $this->assertTrue($plugin->ensureLuyaExtraSectionSymlinkIsDisabled($luya));
+
+
+        $luyaTrue = new RootPackage('archivertest/archivertest', 'master', 'master');
+        $luyaTrue->setExtra([Installer::LUYA_EXTRA => [
+            Plugin::LUYA_SYMLINK => true,
+        ]]);
+        $this->assertFalse($plugin->ensureLuyaExtraSectionSymlinkIsDisabled($luyaTrue));
     }
 }
