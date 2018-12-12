@@ -30,16 +30,14 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     const LUYA_SYMLINK = 'symlink';
 
     /**
-     * Filename of the symlink with target to the `vendor/bin/luya`.
-     *
+     * @var string Filename of the symlink with target to the `vendor/bin/luya`.
      * @since 1.0.4
      */
     public $linkPath = 'luya';
 
     /**
-     * This property can be turned trued by any package in order to do stop creating luya binary.
-     *
-     * @var boolean
+     * @var boolean This property can be turned trued by any package while isntalling in order to do stop creating luya binary.
+     * @since 1.0.4
      */
     public $packageHasDisabledSymlink = false;
     
