@@ -11,8 +11,7 @@ use Composer\Installer\PackageEvent;
 use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\DependencyResolver\Operation\InstallOperation;
 use Composer\Installer\PackageEvents;
-use Composer\Package\RootPackage;
-use Composer\Package\Package;
+use Composer\Package\PackageInterface;
 
 /**
  * LUYA Composer Plugin.
@@ -119,11 +118,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      *
      * This means the symlinking for luya binary is diabled for postUpdateScript() event.
      *
-     * @param Package $package
+     * @param PackageInterface $package
      * @return boolean
      * @since 1.0.4
      */
-    public function ensureLuyaExtraSectionSymlinkIsDisabled(Package $package)
+    public function ensureLuyaExtraSectionSymlinkIsDisabled(PackageInterface $package)
     {
         $extra = $package->getExtra();
 
