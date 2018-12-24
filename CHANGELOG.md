@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
 
+## 1.0.4.2 (24. December 2018)
+
++ [#9](https://github.com/luyadev/luya-composer/issues/9) Fix issue with paths on windows systems.
+
 ## 1.0.4.1 (18. December 2018)
 
 + [#8](https://github.com/luyadev/luya-composer/issues/8) Use PackageInterface instead of Package for ensureLuyaExtraSectionSymlinkIsDisabled type hinting.

@@ -2,6 +2,7 @@
 
 namespace luya\composer;
 
+use Composer\Config;
 use Composer\Installer\LibraryInstaller;
 use Composer\Repository\InstalledRepositoryInterface;
 use Composer\Package\PackageInterface;
@@ -205,7 +206,7 @@ class Installer extends LibraryInstaller
     public function getRelativeVendorDir()
     {
         if ($this->_relativeVendorDir === null) {
-            $this->_relativeVendorDir = rtrim($this->composer->getConfig()->get('vendor-dir', \Composer\Config::RELATIVE_PATHS), '/');
+            $this->_relativeVendorDir = rtrim($this->composer->getConfig()->get('vendor-dir', Config::RELATIVE_PATHS), DIRECTORY_SEPARATOR);
         }
         
         return $this->_relativeVendorDir;

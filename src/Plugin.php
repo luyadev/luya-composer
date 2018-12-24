@@ -4,6 +4,7 @@ namespace luya\composer;
 
 use Composer\Plugin\PluginInterface;
 use Composer\IO\IOInterface;
+use Composer\Config;
 use Composer\Composer;
 use Composer\Script\ScriptEvents;
 use Composer\Script\Event;
@@ -154,7 +155,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     public function getRelativeVendorDir(Composer $composer)
     {
         if ($this->_relativeVendorDir === null) {
-            $this->_relativeVendorDir = rtrim($composer->getConfig()->get('vendor-dir', \Composer\Config::RELATIVE_PATHS), '/');
+            $this->_relativeVendorDir = rtrim($composer->getConfig()->get('vendor-dir', Config::RELATIVE_PATHS), DIRECTORY_SEPARATOR);
         }
     
         return $this->_relativeVendorDir;
