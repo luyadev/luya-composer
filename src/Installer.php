@@ -112,13 +112,13 @@ class Installer extends LibraryInstaller
         $packageConfig = [
             'package' => ['name' => $package->getName(), 'prettyName' => $package->getPrettyName(), 'version' => $package->getVersion()],
             'blocks' => [],
-            'bootstrap' => (isset($config['bootstrap'])) ? $config['bootstrap'] : [],
+            'bootstrap' => (isset($config['bootstrap'])) ? ComposerHelper::parseDirectorySeperator($config['bootstrap']) : [],
         ];
         
         $blocks = (isset($config['blocks'])) ? $config['blocks'] : [];
     
         foreach ($blocks as $blockFolder) {
-            $packageConfig['blocks'][] = $this->getRelativeVendorDir() . DIRECTORY_SEPARATOR . $package->getPrettyName() . DIRECTORY_SEPARATOR . ltrim($blockFolder, '/');
+            $packageConfig['blocks'][] = $this->getRelativeVendorDir() . DIRECTORY_SEPARATOR . $package->getPrettyName() . DIRECTORY_SEPARATOR . ComposerHelper::parseDirectorySeperator(ltrim($blockFolder, DIRECTORY_SEPARATOR));
         }
         
         return $packageConfig;
@@ -128,7 +128,7 @@ class Installer extends LibraryInstaller
      * Remove a package from the config
      *
      * @param PackageInterface $package
-     * @return void
+     * @return array
      */
     protected function removeConfig(PackageInterface $package)
     {
@@ -160,7 +160,7 @@ class Installer extends LibraryInstaller
      * Add a package to the config
      *
      * @param PackageInterface $package
-     * @return void
+     * @return array
      */
     protected function addConfig(PackageInterface $package)
     {

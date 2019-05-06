@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.0.5
+
++ [#10](https://github.com/luyadev/luya-composer/issues/10) Add new `{{DS}}` variable to fix problem with windows systems.
+
 ## 1.0.4.2 (24. December 2018)
 
 + [#9](https://github.com/luyadev/luya-composer/issues/9) Fix issue with paths on windows systems.
