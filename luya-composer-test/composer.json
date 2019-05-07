@@ -1,0 +1,24 @@
+{
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../luya-composer"
+        },
+        {
+            "type": "path",
+            "url": "package"
+        }
+    ],
+    "require": {
+        "luyadev/luya-composer": "*",
+        "my/test" : "*"
+    },
+    "extra" : {
+        "luya" : {
+            "blocks": [
+                "path/to/blocks/*"
+            ]
+        }
+    }
+}
