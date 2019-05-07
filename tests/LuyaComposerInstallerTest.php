@@ -54,6 +54,10 @@ class LuyaComposerInstallerTest extends TestCase
                 'name' => $package->getName(),
                 'prettyName' => $package->getPrettyName(),
                 'version' => $package->getVersion(),
+                'targetDir' => null,
+                'installSource' => null,
+                'sourceUrl' => null,
+                'packageFolder' => $package->getPrettyName(),
             ],
             'blocks' => [
                 'data/tmp/vendor/archivertest/archivertest/my/extension/blocks'
