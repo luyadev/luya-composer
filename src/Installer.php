@@ -109,8 +109,19 @@ class Installer extends LibraryInstaller
      */
     protected function ensureConfig(PackageInterface $package, array $config)
     {
+        // generate the package folder, which is actually the name but with os based directory seperator
+        $packageFolder = str_replace("/", DIRECTORY_SEPARATOR, $package->getPrettyName());
+        
         $packageConfig = [
-            'package' => ['name' => $package->getName(), 'prettyName' => $package->getPrettyName(), 'version' => $package->getVersion()],
+            'package' => [
+                'name' => $package->getName(),
+                'prettyName' => $package->getPrettyName(),
+                'version' => $package->getVersion(),
+                'targetDir' => $package->getTargetDir(),
+                'installSource' => $package->getInstallationSource(),
+                'sourceUrl' => $package->getSourceUrl(),
+                'packageFolder' => $packageFolder,
+            ],
             'blocks' => [],
             'bootstrap' => (isset($config['bootstrap'])) ? ComposerHelper::parseDirectorySeperator($config['bootstrap']) : [],
         ];
@@ -118,7 +129,7 @@ class Installer extends LibraryInstaller
         $blocks = (isset($config['blocks'])) ? $config['blocks'] : [];
     
         foreach ($blocks as $blockFolder) {
-            $packageConfig['blocks'][] = $this->getRelativeVendorDir() . DIRECTORY_SEPARATOR . $package->getPrettyName() . DIRECTORY_SEPARATOR . ComposerHelper::parseDirectorySeperator(ltrim($blockFolder, DIRECTORY_SEPARATOR));
+            $packageConfig['blocks'][] = $this->getRelativeVendorDir() . DIRECTORY_SEPARATOR . $packageFolder . DIRECTORY_SEPARATOR . ComposerHelper::parseDirectorySeperator(ltrim($blockFolder, DIRECTORY_SEPARATOR));
         }
         
         return $packageConfig;
