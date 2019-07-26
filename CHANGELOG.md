@@ -1,9 +1,23 @@
 # LUYA Composer Plugin Changelog
 
-All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
+All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
+In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
-## 1.0.4 (in progress)
+## 1.0.5 (14. May 2019)
 
++ [#10](https://github.com/luyadev/luya-composer/issues/10) Add new `{{DS}}` variable to fix problem with windows systems paths.
+
+## 1.0.4.2 (24. December 2018)
+
++ [#9](https://github.com/luyadev/luya-composer/issues/9) Fix issue with paths on windows systems.
+
+## 1.0.4.1 (18. December 2018)
+
++ [#8](https://github.com/luyadev/luya-composer/issues/8) Use PackageInterface instead of Package for ensureLuyaExtraSectionSymlinkIsDisabled type hinting.
+
+## 1.0.4 (12. December 2018)
+
++ [#7](https://github.com/luyadev/luya-composer/issues/7) Add option `symlink` in luya extra section to disable the symlinking of the luya binary into the application folder.
 + [#2](https://github.com/luyadev/luya-composer/issues/2) Relative vendor directory and alias for block paths.
 
 ## 1.0.3 (16. January 2018)

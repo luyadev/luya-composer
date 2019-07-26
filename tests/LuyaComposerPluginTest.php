@@ -5,6 +5,10 @@ namespace luya\composer\tests;
 use luya\composer\Plugin;
 use Composer\Installer\PackageEvent;
 use Composer\Script\Event;
+use Composer\Package\Package;
+use Composer\Package\RootPackage;
+use luya\composer\Installer;
+use Composer\DependencyResolver\DefaultPolicy;
 
 class LuyaComposerPluginTest extends TestCase
 {
@@ -59,5 +63,45 @@ class LuyaComposerPluginTest extends TestCase
         $this->assertNotFalse($luyaLinkTarget, 'Luya file link missing.');
         $this->assertStringStartsNotWith('/', $luyaLinkTarget, 'Link target should not be a absolute path.');
     }
-    
+
+    public function testIgnoreOptionForSymlink()
+    {
+        $plugin = new Plugin($this->io, $this->composer);
+
+        $root = new RootPackage('archivertest/archivertest', 'master', 'master');
+        $root->setExtra(['foo' => 'bar']);
+        $this->assertFalse($plugin->ensureLuyaExtraSectionSymlinkIsDisabled($root));
+        
+
+        /*
+        $this->composer->setPackage($root);
+
+        $scriptEvent = new Event('post-update', $this->composer, $this->io);
+        $this->plugin->postUpdateScript($scriptEvent);
+        */
+
+        
+
+        $luya = new RootPackage('archivertest/archivertest', 'master', 'master');
+        $luya->setExtra([Installer::LUYA_EXTRA => [
+            Plugin::LUYA_SYMLINK => false,
+        ]]);
+        $this->assertTrue($plugin->ensureLuyaExtraSectionSymlinkIsDisabled($luya));
+
+
+        $luyaTrue = new RootPackage('archivertest/archivertest', 'master', 'master');
+        $luyaTrue->setExtra([Installer::LUYA_EXTRA => [
+            Plugin::LUYA_SYMLINK => true,
+        ]]);
+        $this->assertFalse($plugin->ensureLuyaExtraSectionSymlinkIsDisabled($luyaTrue));
+    }
+
+    public function testPackageHasDisabledSymlink()
+    {
+        $scriptEvent = new Event('post-update', $this->composer, $this->io);
+       
+        $plugin = new Plugin();
+        $plugin->packageHasDisabledSymlink = true;
+        $this->assertNull($plugin->postUpdateScript($scriptEvent)); // well... yes
+    }
 }

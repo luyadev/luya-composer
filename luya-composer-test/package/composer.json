@@ -1,0 +1,14 @@
+{
+    "name" : "my/test",
+    "type" : "luya-extension",
+    "extra" : {
+        "luya" : {
+            "blocks": [
+                "path{{DS}}to/blocks/*"
+            ],
+            "bootstrap": [
+                "namespace\\to\\my\\BootstrapFile"
+            ]
+        }
+    }
+}

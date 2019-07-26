@@ -54,6 +54,10 @@ class LuyaComposerInstallerTest extends TestCase
                 'name' => $package->getName(),
                 'prettyName' => $package->getPrettyName(),
                 'version' => $package->getVersion(),
+                'targetDir' => null,
+                'installSource' => null,
+                'sourceUrl' => null,
+                'packageFolder' => $package->getPrettyName(),
             ],
             'blocks' => [
                 'data/tmp/vendor/archivertest/archivertest/my/extension/blocks'
@@ -65,5 +69,4 @@ class LuyaComposerInstallerTest extends TestCase
         $this->assertSame($expectedConfig['blocks'], $packageConfig['blocks'], 'Invalid block configuration.');
         $this->assertSame($expectedConfig['bootstrap'], $packageConfig['bootstrap'], 'Invalid bootstrap configuration.');
     }
-    
 }
