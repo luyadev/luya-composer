@@ -81,12 +81,19 @@ class Installer extends LibraryInstaller
             'package' => ['name' => $package->getName(), 'prettyName' => $package->getPrettyName(), 'version' => $package->getVersion()],
             'blocks' => [],
             'bootstrap' => (isset($config['bootstrap'])) ? $config['bootstrap'] : [],
+            'themes' => [],
         ];
         
         $blocks = (isset($config['blocks'])) ? $config['blocks'] : [];
     
         foreach ($blocks as $blockFolder) {
             $packageConfig['blocks'][] = $this->getRelativeVendorDir() . DIRECTORY_SEPARATOR . $package->getPrettyName() . DIRECTORY_SEPARATOR . ltrim($blockFolder, '/');
+        }
+    
+        $themes = (isset($config['themes'])) ? $config['themes'] : [];
+    
+        foreach ($themes as $themeFolder) {
+            $packageConfig['themes'][] = $this->getRelativeVendorDir() . DIRECTORY_SEPARATOR . $package->getPrettyName() . DIRECTORY_SEPARATOR . ltrim($themeFolder, '/');
         }
         
         return $packageConfig;
