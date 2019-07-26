@@ -24,7 +24,7 @@ class Installer extends LibraryInstaller
      */
     public function supports($packageType)
     {
-        return $packageType == 'luya-core' || $packageType == 'luya-extension' || $packageType == 'luya-module';
+        return $packageType == 'luya-core' || $packageType == 'luya-extension' || $packageType == 'luya-module' || $packageType == 'luya-theme';
     }
     
     /**
