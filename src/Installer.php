@@ -127,16 +127,16 @@ class Installer extends LibraryInstaller
             'themes' => [],
         ];
         
-        $blocks = (isset($config['blocks'])) ? $config['blocks'] : [];
+        $blocks = isset($config['blocks']) ? $config['blocks'] : [];
     
         foreach ($blocks as $blockFolder) {
             $packageConfig['blocks'][] = $this->getRelativeVendorDir() . DIRECTORY_SEPARATOR . $packageFolder . DIRECTORY_SEPARATOR . ComposerHelper::parseDirectorySeperator(ltrim($blockFolder, DIRECTORY_SEPARATOR));
         }
     
-        $themes = (isset($config['themes'])) ? $config['themes'] : [];
+        $themes = isset($config['themes']) ? $config['themes'] : [];
     
         foreach ($themes as $themeFolder) {
-            $packageConfig['themes'][] = $this->getRelativeVendorDir() . DIRECTORY_SEPARATOR . $package->getPrettyName() . DIRECTORY_SEPARATOR . ltrim($themeFolder, '/');
+            $packageConfig['themes'][] = $this->getRelativeVendorDir() . DIRECTORY_SEPARATOR . $package->getPrettyName() . DIRECTORY_SEPARATOR . ComposerHelper::parseDirectorySeperator(ltrim($themeFolder, '/'));
         }
         
         return $packageConfig;
