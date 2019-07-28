@@ -33,6 +33,9 @@ class LuyaComposerInstallerTest extends TestCase
             Installer::LUYA_EXTRA => [
                 'blocks' => [
                     'my/extension/blocks'
+                ],
+                'themes' => [
+                    'themes/testTheme'
                 ]
             ],
         ]);
@@ -63,10 +66,15 @@ class LuyaComposerInstallerTest extends TestCase
                 'data/tmp/vendor/archivertest/archivertest/my/extension/blocks'
             ],
             'bootstrap' => [],
+            'themes' => [
+                'data/tmp/vendor/archivertest/archivertest/themes/testTheme'
+            ],
         ];
         
+        $this->assertSame(array_keys($expectedConfig), array_keys($packageConfig), 'Invalid configuration entries.');
         $this->assertSame($expectedConfig['package'], $packageConfig['package'], 'Invalid package configuration.');
         $this->assertSame($expectedConfig['blocks'], $packageConfig['blocks'], 'Invalid block configuration.');
         $this->assertSame($expectedConfig['bootstrap'], $packageConfig['bootstrap'], 'Invalid bootstrap configuration.');
+        $this->assertSame($expectedConfig['themes'], $packageConfig['themes'], 'Invalid theme configuration.');
     }
 }

@@ -24,7 +24,7 @@ class Installer extends LibraryInstaller
      */
     public function supports($packageType)
     {
-        return $packageType == 'luya-core' || $packageType == 'luya-extension' || $packageType == 'luya-module';
+        return $packageType == 'luya-core' || $packageType == 'luya-extension' || $packageType == 'luya-module' || $packageType == 'luya-theme';
     }
     
     /**
@@ -124,12 +124,19 @@ class Installer extends LibraryInstaller
             ],
             'blocks' => [],
             'bootstrap' => (isset($config['bootstrap'])) ? ComposerHelper::parseDirectorySeperator($config['bootstrap']) : [],
+            'themes' => [],
         ];
         
-        $blocks = (isset($config['blocks'])) ? $config['blocks'] : [];
+        $blocks = isset($config['blocks']) ? $config['blocks'] : [];
     
         foreach ($blocks as $blockFolder) {
             $packageConfig['blocks'][] = $this->getRelativeVendorDir() . DIRECTORY_SEPARATOR . $packageFolder . DIRECTORY_SEPARATOR . ComposerHelper::parseDirectorySeperator(ltrim($blockFolder, DIRECTORY_SEPARATOR));
+        }
+    
+        $themes = isset($config['themes']) ? $config['themes'] : [];
+    
+        foreach ($themes as $themeFolder) {
+            $packageConfig['themes'][] = $this->getRelativeVendorDir() . DIRECTORY_SEPARATOR . $package->getPrettyName() . DIRECTORY_SEPARATOR . ComposerHelper::parseDirectorySeperator(ltrim($themeFolder, '/'));
         }
         
         return $packageConfig;

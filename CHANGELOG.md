@@ -6,6 +6,7 @@ In order to read more about upgrading and BC breaks have a look at the [UPGRADE 
 ## 1.0.6
 
 + [#11](https://github.com/luyadev/luya-composer/issues/11) Replace linux paths with back slashes for windows systems.  
++ [#12](https://github.com/luyadev/luya-composer/pull/12) Add new package type `luya-theme` and added to extras section.
 
 ## 1.0.5 (14. May 2019)
 
