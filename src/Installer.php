@@ -18,13 +18,24 @@ class Installer extends LibraryInstaller
     const LUYA_EXTRA = 'luya';
     
     const LUYA_FILE = 'luyadev/installer.php';
+
+    const LUYA_TYPE_CORE = 'luya-core';
+
+    const LUYA_TYPE_EXTENSION = 'luya-extension';
+
+    const LUYA_TYPE_MODULE = 'luya-module';
+
+    const LUYA_TYPE_THEME = 'luya-theme';
     
     /**
      * {@inheritDoc}
      */
     public function supports($packageType)
     {
-        return $packageType == 'luya-core' || $packageType == 'luya-extension' || $packageType == 'luya-module' || $packageType == 'luya-theme';
+        return $packageType == self::LUYA_TYPE_CORE || 
+            $packageType == self::LUYA_TYPE_EXTENSION || 
+            $packageType == self::LUYA_TYPE_MODULE || 
+            $packageType == self::LUYA_TYPE_THEME;
     }
     
     /**

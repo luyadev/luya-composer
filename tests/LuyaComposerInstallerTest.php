@@ -77,4 +77,14 @@ class LuyaComposerInstallerTest extends TestCase
         $this->assertSame($expectedConfig['bootstrap'], $packageConfig['bootstrap'], 'Invalid bootstrap configuration.');
         $this->assertSame($expectedConfig['themes'], $packageConfig['themes'], 'Invalid theme configuration.');
     }
+
+    public function testSupports()
+    {
+        $this->assertTrue($this->installer->supports(Installer::LUYA_TYPE_CORE));
+        $this->assertTrue($this->installer->supports(Installer::LUYA_TYPE_EXTENSION));
+        $this->assertTrue($this->installer->supports(Installer::LUYA_TYPE_MODULE));
+        $this->assertTrue($this->installer->supports(Installer::LUYA_TYPE_THEME));
+        $this->assertFalse($this->installer->supports('package'));
+        $this->assertFalse($this->installer->supports('project'));
+    }
 }
