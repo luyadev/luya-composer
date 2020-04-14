@@ -75,6 +75,10 @@ class Installer extends LibraryInstaller
      */
     protected function addPackage(PackageInterface $package)
     {
+        if (!$this->isPackageInComposerConfig($package)) {
+            return;
+        }
+        
         $this->writeInstaller($this->addConfig($package));
     }
     
@@ -112,6 +116,30 @@ class Installer extends LibraryInstaller
     }
     
     /**
+     * Check if the package is in the require or require-dev config.
+     * 
+     * If the package is not in the "root" composer.json available, the installer should not add those packages.
+     *
+     * @param PackageInterface $package
+     * @return boolean
+     * @since 1.1.0
+     */
+    public function isPackageInComposerConfig(PackageInterface $package)
+    {
+        if (array_key_exists($package->getName(), $this->composer->getPackage()->getRequires())) {
+            return true;
+        }
+
+        if (array_key_exists($package->getName(), $this->composer->getPackage()->getDevRequires())) {
+            return true;
+        }
+
+        $this->io->write("Package {$package->getName()} will be ignored by luyadev installer as its not part of the composer.json requirements.");
+
+        return false;
+    }
+
+    /**
      * Ensure a config for a package.
      *
      * @param PackageInterface $package
@@ -120,6 +148,7 @@ class Installer extends LibraryInstaller
      */
     protected function ensureConfig(PackageInterface $package, array $config)
     {
+
         // generate the package folder, which is actually the name but with os based directory seperator
         $packageFolder = str_replace("/", DIRECTORY_SEPARATOR, $package->getPrettyName());
         
