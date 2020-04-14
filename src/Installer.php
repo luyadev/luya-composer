@@ -143,7 +143,7 @@ class Installer extends LibraryInstaller
     protected function ensureConfig(PackageInterface $package, array $config)
     {
         if (!$this->isPackageInComposerConfig($package)) {
-            $this->io->write("Packaged {$package->getName()} will be ignored by luyadev installer as its not part of the composer.json requirements.");
+            $this->io->write("Package {$package->getName()} will be ignored by luyadev installer as its not part of the composer.json requirements.");
             return;
         }
 
