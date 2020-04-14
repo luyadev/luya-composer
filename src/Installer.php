@@ -75,6 +75,10 @@ class Installer extends LibraryInstaller
      */
     protected function addPackage(PackageInterface $package)
     {
+        if (!$this->isPackageInComposerConfig($package)) {
+            return;
+        }
+        
         $this->writeInstaller($this->addConfig($package));
     }
     
@@ -130,6 +134,8 @@ class Installer extends LibraryInstaller
             return true;
         }
 
+        $this->io->write("Package {$package->getName()} will be ignored by luyadev installer as its not part of the composer.json requirements.");
+
         return false;
     }
 
@@ -142,10 +148,6 @@ class Installer extends LibraryInstaller
      */
     protected function ensureConfig(PackageInterface $package, array $config)
     {
-        if (!$this->isPackageInComposerConfig($package)) {
-            $this->io->write("Package {$package->getName()} will be ignored by luyadev installer as its not part of the composer.json requirements.");
-            return;
-        }
 
         // generate the package folder, which is actually the name but with os based directory seperator
         $packageFolder = str_replace("/", DIRECTORY_SEPARATOR, $package->getPrettyName());
