@@ -125,6 +125,7 @@ class Installer extends LibraryInstaller
         
         $packageConfig = [
             'package' => [
+                'isDev' => $package->isDev(),
                 'name' => $package->getName(),
                 'prettyName' => $package->getPrettyName(),
                 'version' => $package->getVersion(),

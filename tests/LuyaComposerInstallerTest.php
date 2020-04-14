@@ -54,6 +54,7 @@ class LuyaComposerInstallerTest extends TestCase
         
         $expectedConfig = [
             'package' => [
+                'isDev' => false,
                 'name' => $package->getName(),
                 'prettyName' => $package->getPrettyName(),
                 'version' => $package->getVersion(),
