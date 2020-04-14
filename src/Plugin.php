@@ -11,12 +11,17 @@ use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
 use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\DependencyResolver\Operation\InstallOperation;
+use Composer\Installer\InstallerEvent;
+use Composer\Installer\InstallerEvents;
 use Composer\Installer\PackageEvents;
 use Composer\Package\PackageInterface;
 
 /**
  * LUYA Composer Plugin.
  *
+ * The main plugin acticates the Installer, which can observe every package installation. The Plugin class
+ * is responsible for controlling the `composer.json` file itself and installes the luya binary file.
+ * 
  * Events: https://getcomposer.org/doc/articles/scripts.md#event-names
  *
  * @author Basil Suter <basil@nadar.io>
