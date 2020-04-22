@@ -3,9 +3,13 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.1.1
+
++ Ensure Composer 2.0 Plugin class compatibility.
+
 ## 1.1.0 (14. April 2020)
 
-+ Ensure compatibilit with Composer 2.0 API.
++ Ensure compatibility with Composer 2.0 API.
 + [#14](https://github.com/luyadev/luya-composer/issues/14) Do not add packages into installer.php when does are not part of the require or require-dev composer.json root file.
 
 ## 1.0.6 (13. September 2019)
