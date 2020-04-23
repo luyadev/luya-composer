@@ -8,6 +8,8 @@ use Composer\Config;
 use Composer\Package\CompletePackage;
 use Composer\Plugin\PluginManager;
 use Composer\Util\Filesystem;
+use Composer\Util\HttpDownloader;
+use Composer\Util\Loop;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
@@ -66,20 +68,24 @@ class TestCase extends BaseTestCase
             ->method('getLocalRepository')
             ->will($this->returnValue($this->repository));
         
-        $im = $this->getMockBuilder('Composer\Installer\InstallationManager')->getMock();
+
+
+        $config = new Config();
+        $this->io = $this->getMockBuilder('Composer\IO\IOInterface')->getMock();
+
+        $downloader = new HttpDownloader($this->io, $config);
+        $im = $this->getMockBuilder('Composer\Installer\InstallationManager')->setConstructorArgs([new Loop($downloader), $this->io])->getMock();
         $im->expects($this->any())
             ->method('getInstallPath')
             ->will($this->returnCallback(function ($package) {
                 return __DIR__.'/data/'.$package->getPrettyName();
             }));
         
-        $this->io = $this->getMockBuilder('Composer\IO\IOInterface')->getMock();
         
         $dispatcher = $this->getMockBuilder('Composer\EventDispatcher\EventDispatcher')->disableOriginalConstructor()->getMock();
         $this->autoloadGenerator = new AutoloadGenerator($dispatcher);
         
         $this->composer = new Composer();
-        $config = new Config();
         $this->composer->setConfig($config);
         $this->composer->setDownloadManager($dm);
         $this->composer->setRepositoryManager($rm);
