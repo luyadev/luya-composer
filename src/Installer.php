@@ -6,6 +6,7 @@ use Composer\Config;
 use Composer\Installer\LibraryInstaller;
 use Composer\Repository\InstalledRepositoryInterface;
 use Composer\Package\PackageInterface;
+use React\Promise\PromiseInterface;
 
 /**
  * LUYA Package Installer.
@@ -44,8 +45,13 @@ class Installer extends LibraryInstaller
     public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
         // install the package the normal composer way
-        parent::install($repo, $package);
+        $promise = parent::install($repo, $package);
         $this->addPackage($package);
+        
+        // Composer v2 might return a promise here
+        if ($promise instanceof PromiseInterface) {
+            return $promise->then();
+        }
     }
     
     /**
@@ -53,9 +59,14 @@ class Installer extends LibraryInstaller
      */
     public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
     {
-        parent::update($repo, $initial, $target);
+        $promise = parent::update($repo, $initial, $target);
         $this->removePackage($initial);
         $this->addPackage($target);
+        
+        // Composer v2 might return a promise here
+        if ($promise instanceof PromiseInterface) {
+            return $promise->then();
+        }
     }
     
     /**
@@ -63,8 +74,13 @@ class Installer extends LibraryInstaller
      */
     public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
-        parent::uninstall($repo, $package);
+        $promise = parent::uninstall($repo, $package);
         $this->removePackage($package);
+        
+        // Composer v2 might return a promise here
+        if ($promise instanceof PromiseInterface) {
+            return $promise->then();
+        }
     }
     
     /**
