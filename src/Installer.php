@@ -50,7 +50,7 @@ class Installer extends LibraryInstaller
         
         // Composer v2 might return a promise here
         if ($promise instanceof PromiseInterface) {
-            return $promise->then($outputStatus);
+            return $promise->then();
         }
     }
     
@@ -65,7 +65,7 @@ class Installer extends LibraryInstaller
         
         // Composer v2 might return a promise here
         if ($promise instanceof PromiseInterface) {
-            return $promise->then($outputStatus);
+            return $promise->then();
         }
     }
     
@@ -79,7 +79,7 @@ class Installer extends LibraryInstaller
         
         // Composer v2 might return a promise here
         if ($promise instanceof PromiseInterface) {
-            return $promise->then($outputStatus);
+            return $promise->then();
         }
     }
     
