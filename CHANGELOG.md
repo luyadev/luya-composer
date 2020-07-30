@@ -6,6 +6,7 @@ In order to read more about upgrading and BC breaks have a look at the [UPGRADE 
 ## 1.1.2 (30. July 2020)
 
 + [#18](https://github.com/luyadev/luya-composer/pull/18) Fix issue with Composer 2.0 compatibility (uncaught promise)
++ Replaced Travis with GitHub Actions
 
 ## 1.1.1 (22. April 2020)
 
